@@ -1,0 +1,16 @@
+SIMULADOR v3.2 - comandos (Windows, PowerShell)
+Requisitos: py -m pip install numpy pandas scikit-learn scipy matplotlib huggingface_hub pyarrow
+
+PASO 1 - Distribución horaria de las entregas (LaDe-D). Genera horas_entrega.csv y figura_horarios.png
+ py analisis_horarios_lade.py --ciudades sh cq --muestra 2000000 --salida .
+
+PASO 2 - Corridas completas (10.000 clientes, 30 semillas) usando esa distribución para sortear la franja preferida
+ py simulador_reintentos_v3_2.py --n 10000 --semillas 30 --horas horas_entrega.csv --fallo 0.0668 --salida base_0668.csv
+ py simulador_reintentos_v3_2.py --n 10000 --semillas 30 --horas horas_entrega.csv --fallo 0.0813 --salida base_0813.csv
+ py simulador_reintentos_v3_2.py --n 10000 --semillas 30 --horas horas_entrega.csv --fallo 0.20   --salida base_20.csv
+ py simulador_reintentos_v3_2.py --n 10000 --semillas 30 --horas horas_entrega.csv --fallo 0.30   --salida base_30.csv
+
+PASO 3 - Sensibilidad (se cambia un parámetro por vez; ejemplo con fallo 20 %)
+ Largo de franja:   --franja_h 2   /   --franja_h 4
+ Contraste:         --contraste 2  /  --contraste 6      (ausencia fuera de la franja preferida / dentro de ella)
+ Costo de contacto: --c_contacto 0.3      Respuesta: --p_resp 0.45      Intentos: --max_intentos 2 / 4
